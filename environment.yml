@@ -1,4 +1,4 @@
-name: dask-scipy
+name: dask-scipy-demo
 channels:
  - defaults
  - conda-forge
