@@ -1,0 +1,24 @@
+kind: Pod
+metadata:
+  labels:
+    foo: bar
+    baz: quux
+spec:
+  containers:
+  - image: dask:v2
+    name: dask-worker
+    args: [dask-worker, $(DASK_SCHEDULER_ADDRESS), --nthreads, '2', --memory-limit, 8GB]
+    name: dask-worker
+    securityContext:
+      capabilities:
+        add: [SYS_ADMIN]
+      privileged: true
+    resources:
+      limits:
+        cpu: "2"
+        memory: 20M
+      requests:
+        cpu: "2"
+        memory: 20M
+
+  restartPolicy: Never

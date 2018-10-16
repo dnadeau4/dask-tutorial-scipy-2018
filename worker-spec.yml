@@ -1,0 +1,35 @@
+kubernetes:
+   name: "dask-{user}-{uuid}"
+   namespace: null
+   count:
+   start: 0
+   max: null
+#   port: 8080
+#   host: '0.0.0.0'
+#   env: {}
+
+# worker-spec.yml
+#
+kind: Pod
+spec:
+  restartPolicy: Never
+  containers:
+#  - image: daskdev/dask:latest
+#  - image: gcr.io/dask-demo-182016/dask-tutorial-notebook:latest
+#    args: [dask-worker,  --nthreads, '2', --no-bokeh, --memory-limit, 100MB, --death-timeout, '60']
+  - image: dask:v3
+    args: [dask-worker, $(DASK_SCHEDULER_ADDRESS), --nthreads, '1', --no-bokeh, --memory-limit, 100MB, --death-timeout, '60', --worker-port, '8786']
+    imagePullPolicy: IfNotPresent
+    name: dask-worker
+    securityContext:
+      capabilities:
+        add: [SYS_ADMIN]
+      privileged: true
+#    resources:
+#      limits:
+#        cpu: "2"
+#        memory: 20M
+#      requests:
+#        cpu: "2"
+#        memory: 20M
+
